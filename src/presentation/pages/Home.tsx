@@ -1,6 +1,8 @@
+import Navigation from "../components/Navigation";
+import WeatherCard from "../components/WeatherCard";
+
 import { useGeolocation } from "@/presentation/hooks/useGeolocation";
 import { useWeather } from "@/presentation/hooks/useWeather";
-import WeatherCard from "@/presentation/components/WeatherCard";
 
 function Home() {
   const { location, permission, requestPermission } = useGeolocation();
@@ -43,9 +45,10 @@ function Home() {
   }
 
   return (
-    <div className="p-4 flex justify-center">
+    <>
+      <Navigation city={weather.city} />
       <WeatherCard weather={weather} />
-    </div>
+    </>
   );
 }
 
