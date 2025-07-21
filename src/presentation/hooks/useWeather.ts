@@ -1,7 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
 import DIContainer from "@/infrastructure/container/DIContainer"; // ← 여기서 사용
-import type { Weather } from "@/domain/Weather";
-import type { Coordinates } from "@/shared/types";
+import type { Weather } from "@/domain/weather";
+
+export interface Coordinates {
+  lat: number;
+  lon: number;
+}
 
 const diContainer = DIContainer.getInstance(); // ← 여기서 사용
 const getCurrentWeatherUseCase = diContainer.getGetCurrentWeatherUseCase(); // ← 여기서 사용

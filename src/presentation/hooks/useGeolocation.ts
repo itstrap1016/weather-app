@@ -1,5 +1,16 @@
 import { useEffect, useState } from "react";
-import type { Coordinates, LocationPermission } from "@/shared/types";
+
+interface Coordinates {
+  lat: number;
+  lon: number;
+}
+
+interface LocationPermission {
+  granted: boolean;
+  denied: boolean;
+  loading: boolean;
+  error: string | null;
+}
 
 export function useGeolocation() {
   const [location, setLocation] = useState<Coordinates | null>(null);

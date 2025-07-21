@@ -1,4 +1,4 @@
-import type { Weather } from "@/domain/Weather";
+import type { Weather } from "@/domain/weather";
 
 interface WeatherCardProps {
   weather: Weather;

@@ -1,6 +1,6 @@
-import { WeatherApiRepository } from "@/infrastructure/WeatherApiRepository";
-import { GetCurrentWeatherUseCase } from "@/application/GetCurrentWeatherUseCase";
-import type { WeatherRepository } from "@/domain/Weather";
+import { WeatherApiRepository } from "@/infrastructure/repositories";
+import { GetCurrentWeatherUseCase } from "@/application/use-cases";
+import type { WeatherRepository } from "@/domain/weather";
 
 class DIContainer {
   private static instance: DIContainer;

@@ -1,4 +1,5 @@
-import type { Weather, WeatherRepository } from "@/domain/Weather";
+import type { Weather } from "@/domain/weather";
+import type { WeatherRepository } from "./repositories";
 
 export class GetCurrentWeatherUseCase {
   private weatherRepository: WeatherRepository;
