@@ -1,5 +1,6 @@
-import type { Weather, WeatherRepository } from "@/domain/weather";
+import type { Weather } from "@/domain/weather";
 import { WeatherApiClient } from "@/infrastructure/api/api-client";
+import type { WeatherRepository } from "@/application/repositories";
 
 export class WeatherApiRepository implements WeatherRepository {
   private apiClient: WeatherApiClient;
