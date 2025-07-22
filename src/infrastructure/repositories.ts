@@ -12,6 +12,8 @@ export class WeatherApiRepository implements WeatherRepository {
   async getCurrentWeather(lat: number, lon: number): Promise<Weather> {
     const data = await this.apiClient.getCurrentWeather(lat, lon);
 
+    console.log(data);
+
     return {
       temperature: Math.round(data.main.temp),
       description: data.weather[0].description,

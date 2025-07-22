@@ -1,5 +1,5 @@
 import Navigation from "../components/Navigation";
-import WeatherCard from "../components/WeatherCard";
+import CurrentWeather from "../components/CurrentWeather";
 
 import { useGeolocation } from "@/presentation/hooks/useGeolocation";
 import { useWeather } from "@/presentation/hooks/useWeather";
@@ -47,7 +47,7 @@ function Home() {
   return (
     <>
       <Navigation city={weather.city} />
-      <WeatherCard weather={weather} />
+      <CurrentWeather weather={weather} />
     </>
   );
 }
