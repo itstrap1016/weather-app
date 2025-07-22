@@ -17,6 +17,8 @@ export class WeatherApiRepository implements WeatherRepository {
       description: data.weather[0].description,
       icon: data.weather[0].icon,
       city: data.name,
+      temp_max: Math.round(data.main.temp_max),
+      temp_min: Math.round(data.main.temp_min),
     };
   }
 }

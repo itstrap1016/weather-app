@@ -3,4 +3,6 @@ export interface Weather {
   description: string;
   icon: string;
   city: string;
+  temp_max: number;
+  temp_min: number;
 }
