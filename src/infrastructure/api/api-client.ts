@@ -10,13 +10,30 @@ export class WeatherApiClient {
   }
 
   async getCurrentWeather(lat: number, lon: number) {
-    const url = `${this.baseUrl}?lat=${lat}&lon=${lon}&appid=${this.apiKey}&units=${API_CONFIG.DEFAULT_PARAMS.units}&lang=${API_CONFIG.DEFAULT_PARAMS.lang}`;
-
-    const response = await fetch(url);
-    if (!response.ok) {
-      throw new Error(`Weather API Error: ${response.status}`);
+    try {
+      const url = `${this.baseUrl}weather?lat=${lat}&lon=${lon}&appid=${this.apiKey}&units=${API_CONFIG.DEFAULT_PARAMS.units}&lang=${API_CONFIG.DEFAULT_PARAMS.lang}`;
+      const response = await fetch(url);
+      if (!response.ok) {
+        throw new Error(`Weather API Error: ${response.status}`);
+      }
+      return await response.json();
+    } catch (error) {
+      console.error("getCurrentWeather error:", error);
+      throw error;
     }
+  }
 
-    return response.json();
+  async getAQI(lat: number, lon: number) {
+    try {
+      const url = `${this.baseUrl}air_pollution?lat=${lat}&lon=${lon}&appid=${this.apiKey}`;
+      const response = await fetch(url);
+      if (!response.ok) {
+        throw new Error(`Weather API Error: ${response.status}`);
+      }
+      return await response.json();
+    } catch (error) {
+      console.error("getAQI error:", error);
+      throw error;
+    }
   }
 }

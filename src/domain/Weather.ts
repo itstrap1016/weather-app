@@ -6,3 +6,7 @@ export interface Weather {
   temp_max: number;
   temp_min: number;
 }
+
+export interface AQI {
+  aqi: number;
+}

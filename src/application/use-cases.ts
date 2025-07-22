@@ -1,4 +1,4 @@
-import type { Weather } from "@/domain/weather";
+import type { AQI, Weather } from "@/domain/weather";
 import type { WeatherRepository } from "./repositories";
 
 export class UseCases {
@@ -10,5 +10,9 @@ export class UseCases {
 
   async getCurrentWeather(lat: number, lon: number): Promise<Weather> {
     return await this.weatherRepository.getCurrentWeather(lat, lon);
+  }
+
+  async getAQI(lat: number, lon: number): Promise<AQI> {
+    return await this.weatherRepository.getAQI(lat, lon);
   }
 }
