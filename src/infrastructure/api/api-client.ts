@@ -5,8 +5,8 @@ export class WeatherApiClient {
   private apiKey: string;
 
   constructor() {
-    this.baseUrl = API_CONFIG.BASE_URL;
-    this.apiKey = API_CONFIG.API_KEY;
+    this.baseUrl = API_CONFIG.BASE_URL ?? "";
+    this.apiKey = API_CONFIG.API_KEY ?? "";
   }
 
   async getCurrentWeather(lat: number, lon: number) {
