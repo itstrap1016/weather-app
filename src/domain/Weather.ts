@@ -9,4 +9,5 @@ export interface Weather {
 
 export interface AQI {
   aqi: number;
+  level: string;
 }

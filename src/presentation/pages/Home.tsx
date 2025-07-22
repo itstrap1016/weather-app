@@ -3,14 +3,20 @@ import CurrentWeather from "../components/CurrentWeather";
 
 import { useGeolocation } from "@/presentation/hooks/useGeolocation";
 import { useWeather } from "@/presentation/hooks/useWeather";
+import { useAQI } from "../hooks/useAQI";
 
 function Home() {
   const { location, permission, requestPermission } = useGeolocation();
   const {
-    data: weather,
+    data: weatherData,
     isLoading: weatherLoading,
     isError: weatherError,
   } = useWeather(location);
+  const {
+    data: aqiData,
+    isLoading: aqiLoading,
+    isError: aqiError,
+  } = useAQI(location);
 
   if (permission.loading) {
     return (
@@ -32,13 +38,13 @@ function Home() {
     );
   }
 
-  if (weatherLoading) {
+  if (weatherLoading || aqiLoading) {
     return (
       <div className="p-4 text-center">날씨 정보를 불러오는 중입니다...</div>
     );
   }
 
-  if (weatherError || !weather) {
+  if (weatherError || !weatherData || aqiError || !aqiData) {
     return (
       <div className="p-4 text-center">날씨 정보를 불러올 수 없습니다.</div>
     );
@@ -46,8 +52,8 @@ function Home() {
 
   return (
     <>
-      <Navigation city={weather.city} />
-      <CurrentWeather weather={weather} />
+      <Navigation city={weatherData.city} />
+      <CurrentWeather weatherData={weatherData} aqiData={aqiData} />
     </>
   );
 }

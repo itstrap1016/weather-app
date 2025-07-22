@@ -1,0 +1,4 @@
+export const QUERY_CONFIG = {
+  DEFAULT_STALE_TIME: 5 * 60 * 1000, // 5분
+  DEFAULT_RETRY_COUNT: 4,
+};

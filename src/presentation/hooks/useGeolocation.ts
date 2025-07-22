@@ -1,9 +1,5 @@
 import { useEffect, useState } from "react";
-
-interface Coordinates {
-  lat: number;
-  lon: number;
-}
+import type { Coordinates } from "@/shared/types/common-types";
 
 interface LocationPermission {
   granted: boolean;
