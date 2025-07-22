@@ -1,4 +1,4 @@
-import type { AQI, Weather } from "@/domain/weather";
+import type { AQI, FiveDaysWeather, Weather } from "@/domain/weather";
 import type { WeatherRepository } from "./repositories";
 
 export class UseCases {
@@ -14,5 +14,12 @@ export class UseCases {
 
   async getAQI(lat: number, lon: number): Promise<AQI> {
     return await this.weatherRepository.getAQI(lat, lon);
+  }
+
+  async getFiveDaysWeather(
+    lat: number,
+    lon: number
+  ): Promise<FiveDaysWeather[]> {
+    return await this.weatherRepository.getFiveDaysWeather(lat, lon);
   }
 }

@@ -4,6 +4,7 @@ import CurrentWeather from "../components/CurrentWeather";
 import { useGeolocation } from "@/presentation/hooks/useGeolocation";
 import { useWeather } from "@/presentation/hooks/useWeather";
 import { useAQI } from "../hooks/useAQI";
+import { useFiveDaysWeather } from "../hooks/useFiveDaysWeather";
 
 function Home() {
   const { location, permission, requestPermission } = useGeolocation();
@@ -17,6 +18,7 @@ function Home() {
     isLoading: aqiLoading,
     isError: aqiError,
   } = useAQI(location);
+  const { data: fiveDaysWeatherData } = useFiveDaysWeather(location);
 
   if (permission.loading) {
     return (

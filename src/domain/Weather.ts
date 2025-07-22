@@ -11,3 +11,10 @@ export interface AQI {
   aqi: number;
   level: string;
 }
+
+export interface FiveDaysWeather {
+  temparature: number;
+  description: string;
+  icon: string;
+  date: string;
+}
