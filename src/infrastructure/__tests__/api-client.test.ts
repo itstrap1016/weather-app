@@ -99,5 +99,19 @@ describe("WeatherApiClient", () => {
       // Then
       expect(result).toEqual(mockResponse);
     });
+
+    it("API 에러 시 적절한 에러를 던질 수 있음", async () => {
+      // Given: 500 에러 응답 설정
+      server.use(
+        http.get("*/air_pollution", () => {
+          return new HttpResponse(null, { status: 404 });
+        })
+      );
+
+      // When & Then: 에러가 발생하는지 확인
+      await expect(apiClient.getAQI(37.5683, 126.9778)).rejects.toThrow(
+        "Weather API Error: 404"
+      );
+    });
   });
 });

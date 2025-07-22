@@ -61,17 +61,17 @@ describe("WeatherApiRepository", () => {
       );
     });
 
-    // it("API 클라이언트에서 에러가 발생하면 에러를 전파해야 한다", async () => {
-    //   // Given
-    //   mockApiClient.getCurrentWeather.mockRejectedValue(
-    //     new Error("Network Error")
-    //   );
+    it("API 클라이언트에서 에러가 발생하면 에러를 전파해야 한다", async () => {
+      // Given
+      mockApiClient.getCurrentWeather.mockRejectedValue(
+        new Error("Network Error")
+      );
 
-    //   // When & Then
-    //   await expect(
-    //     repository.getCurrentWeather(37.5683, 126.9778)
-    //   ).rejects.toThrow("Network Error");
-    // });
+      // When & Then
+      await expect(
+        repository.getCurrentWeather(37.5683, 126.9778)
+      ).rejects.toThrow("Network Error");
+    });
   });
 
   describe("getAQI", () => {
