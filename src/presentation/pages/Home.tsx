@@ -1,10 +1,12 @@
 import Navigation from "../components/Navigation";
 import CurrentWeather from "../components/CurrentWeather";
-
+import FiveDaysWeatherList from "../components/FiveDaysWeather";
+import TwentyFourHoursChart from "../components/TwetyFourHoursChart";
 import { useGeolocation } from "@/presentation/hooks/useGeolocation";
 import { useWeather } from "@/presentation/hooks/useWeather";
 import { useAQI } from "../hooks/useAQI";
 import { useFiveDaysWeather } from "../hooks/useFiveDaysWeather";
+import { use24HoursWeather } from "../hooks/use24HoursWeather";
 
 function Home() {
   const { location, permission, requestPermission } = useGeolocation();
@@ -18,7 +20,16 @@ function Home() {
     isLoading: aqiLoading,
     isError: aqiError,
   } = useAQI(location);
-  const { data: fiveDaysWeatherData } = useFiveDaysWeather(location);
+  const {
+    data: fiveDaysWeatherData,
+    isLoading: fiveDaysLoading,
+    isError: fiveDaysError,
+  } = useFiveDaysWeather(location);
+  const {
+    data: twentyFourHoursWeatherData,
+    isLoading: twentyFourHoursWeatherLoading,
+    isError: twentyFourHoursWeatherError,
+  } = use24HoursWeather(location);
 
   if (permission.loading) {
     return (
@@ -40,13 +51,27 @@ function Home() {
     );
   }
 
-  if (weatherLoading || aqiLoading) {
+  if (
+    weatherLoading ||
+    aqiLoading ||
+    fiveDaysLoading ||
+    twentyFourHoursWeatherLoading
+  ) {
     return (
       <div className="p-4 text-center">날씨 정보를 불러오는 중입니다...</div>
     );
   }
 
-  if (weatherError || !weatherData || aqiError || !aqiData) {
+  if (
+    weatherError ||
+    !weatherData ||
+    aqiError ||
+    !aqiData ||
+    fiveDaysError ||
+    !fiveDaysWeatherData ||
+    twentyFourHoursWeatherError ||
+    !twentyFourHoursWeatherData
+  ) {
     return (
       <div className="p-4 text-center">날씨 정보를 불러올 수 없습니다.</div>
     );
@@ -56,6 +81,8 @@ function Home() {
     <>
       <Navigation city={weatherData.city} />
       <CurrentWeather weatherData={weatherData} aqiData={aqiData} />
+      <FiveDaysWeatherList data={fiveDaysWeatherData} />
+      <TwentyFourHoursChart data={twentyFourHoursWeatherData} />
     </>
   );
 }

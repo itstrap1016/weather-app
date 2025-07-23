@@ -1,4 +1,9 @@
-import type { AQI, FiveDaysWeather, Weather } from "@/domain/weather";
+import type {
+  AQI,
+  FiveDaysWeather,
+  TwentyFourHoursWeather,
+  Weather,
+} from "@/domain/weather";
 import { WeatherApiClient } from "@/infrastructure/api/api-client";
 import type { WeatherRepository } from "@/application/repositories";
 
@@ -9,7 +14,7 @@ interface ForecastItem {
     temp: number;
   };
   weather: Array<{
-    description: string;
+    main: string;
     icon: string;
   }>;
   dt_txt: string;
@@ -66,30 +71,40 @@ export class WeatherApiRepository implements WeatherRepository {
     lon: number
   ): Promise<FiveDaysWeather[]> {
     const data = await this.apiClient.getFiveDaysWeather(lat, lon);
-
-    // 날짜별로 그룹화하고 각 날짜의 마지막(최신) 데이터만 추출
-    const fiveDaysData = (
-      Object.values(
-        data.list.reduce(
-          (acc: Record<string, ForecastItem>, item: ForecastItem) => {
-            const date = item.dt_txt.split(" ")[0]; // "YYYY-MM-DD" 추출
-            acc[date] = item; // 같은 날짜면 덮어쓰기 (자동으로 최신 데이터가 남음)
-            return acc;
-          },
-          {} as Record<string, ForecastItem>
-        )
-      ) as ForecastItem[]
-    )
-      .slice(0, 5) // 5일치만 선택
+    // 각 날짜의 오전 9시 데이터만 필터링
+    const fiveDaysData = data.list
+      .filter((item: ForecastItem) => {
+        const time = item.dt_txt.split(" ")[1];
+        return time === "09:00:00";
+      })
+      .slice(0, 5)
       .map((item: ForecastItem) => ({
         temparature: Math.round(item.main.temp),
-        description: item.weather[0].description,
+        description: item.weather[0].main,
         icon: item.weather[0].icon,
-        date: item.dt_txt.split(" ")[0],
+        date: item.dt_txt.slice(5, 10),
       }));
 
-    console.log(fiveDaysData);
-
     return fiveDaysData;
+  }
+
+  async get24HoursWeather(
+    lat: number,
+    lon: number
+  ): Promise<TwentyFourHoursWeather[]> {
+    const data = await this.apiClient.getFiveDaysWeather(lat, lon);
+    const today = new Date().toISOString().split("T")[0];
+    const twentyFourHoursData = data.list
+      .filter((item: ForecastItem) => {
+        const itemDate = item.dt_txt.split(" ")[0];
+        return itemDate === today;
+      })
+      .map((item: ForecastItem) => ({
+        temparature: Math.round(item.main.temp),
+        icon: item.weather[0].icon,
+        time: item.dt_txt.split(" ")[1].slice(0, 5),
+      }));
+
+    return twentyFourHoursData;
   }
 }

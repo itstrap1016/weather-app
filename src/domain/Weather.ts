@@ -18,3 +18,9 @@ export interface FiveDaysWeather {
   icon: string;
   date: string;
 }
+
+export interface TwentyFourHoursWeather {
+  temparature: number;
+  icon: string;
+  time: string;
+}
