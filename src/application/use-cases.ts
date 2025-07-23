@@ -1,6 +1,7 @@
 import type {
   AQI,
   FiveDaysWeather,
+  RainProbability,
   TwentyFourHoursWeather,
   Weather,
 } from "@/domain/weather";
@@ -33,5 +34,9 @@ export class UseCases {
     lon: number
   ): Promise<TwentyFourHoursWeather[]> {
     return await this.weatherRepository.get24HoursWeather(lat, lon);
+  }
+
+  async getRainProbability(lat: number, lon: number): Promise<RainProbability> {
+    return await this.weatherRepository.getRainProbability(lat, lon);
   }
 }

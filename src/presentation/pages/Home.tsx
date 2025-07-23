@@ -9,6 +9,8 @@ import { useWeather } from "@/presentation/hooks/useWeather";
 import { useAQI } from "../hooks/useAQI";
 import { useFiveDaysWeather } from "../hooks/useFiveDaysWeather";
 import { use24HoursWeather } from "../hooks/use24HoursWeather";
+import { useRainProbability } from "../hooks/useRainProbability";
+import CurrentWeatherInfo from "../components/CurrentWeatherInfo";
 
 function Home() {
   const { location, permission, requestPermission } = useGeolocation();
@@ -32,6 +34,13 @@ function Home() {
     isLoading: twentyFourHoursWeatherLoading,
     isError: twentyFourHoursWeatherError,
   } = use24HoursWeather(location);
+  const {
+    data: rainProbabilityData,
+    isLoading: rainProbabilityLoading,
+    isError: rainProbabilityError,
+  } = useRainProbability(location);
+
+  console.log(rainProbabilityData);
 
   if (permission.loading) {
     return (
@@ -57,7 +66,8 @@ function Home() {
     weatherLoading ||
     aqiLoading ||
     fiveDaysLoading ||
-    twentyFourHoursWeatherLoading
+    twentyFourHoursWeatherLoading ||
+    rainProbabilityLoading
   ) {
     return (
       <div className="p-4 text-center">날씨 정보를 불러오는 중입니다...</div>
@@ -72,7 +82,8 @@ function Home() {
     fiveDaysError ||
     !fiveDaysWeatherData ||
     twentyFourHoursWeatherError ||
-    !twentyFourHoursWeatherData
+    !twentyFourHoursWeatherData ||
+    rainProbabilityError
   ) {
     return (
       <div className="p-4 text-center">날씨 정보를 불러올 수 없습니다.</div>
@@ -86,7 +97,7 @@ function Home() {
       <FiveDaysWeatherList data={fiveDaysWeatherData} />
       <TwentyFourHoursChart data={twentyFourHoursWeatherData} />
       <div className="max-w-[680px] px-[20px] mx-auto mt-10 flex gap-2 pb-10">
-        <div className="w-1/2 flex flex-col gap-2">
+        <div className="flex flex-col gap-2 w-1/2">
           <WindCompass
             speed={weatherData.wind.speed}
             direction={weatherData.wind.direction}
@@ -97,6 +108,12 @@ function Home() {
             sunset={weatherData.sun.sunset}
           />
         </div>
+        <CurrentWeatherInfo
+          humidty={weatherData.humidity}
+          feels_like={weatherData.feels_like}
+          pressure={weatherData.pressure}
+          rainProbability={rainProbabilityData}
+        />
       </div>
     </>
   );
