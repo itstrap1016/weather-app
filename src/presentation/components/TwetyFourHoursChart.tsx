@@ -2,6 +2,10 @@ import type { TwentyFourHoursWeather } from "@/domain/weather";
 import { LineChart, Line, XAxis, YAxis, ResponsiveContainer } from "recharts";
 import type { DotProps } from "recharts";
 
+interface TwentyFourHoursChartProps {
+  data: TwentyFourHoursWeather[];
+}
+
 interface CustomTickProps {
   x?: number;
   y?: number;
@@ -27,7 +31,7 @@ const CustomDot = (props: DotProps & { payload?: TwentyFourHoursWeather }) => {
         x={cx}
         y={cy ? cy - 10 : 0}
         textAnchor="middle"
-        className="text-sm font-medium fill-gray-800"
+        className="text-sm font-medium"
       >
         {payload?.temparature}°
       </text>
@@ -35,7 +39,7 @@ const CustomDot = (props: DotProps & { payload?: TwentyFourHoursWeather }) => {
   );
 };
 
-function TwentyFourHoursChart({ data }: { data: TwentyFourHoursWeather[] }) {
+function TwentyFourHoursChart({ data }: TwentyFourHoursChartProps) {
   const CustomXAxisTick = (props: CustomTickProps) => {
     const { x = 0, y = 0, payload } = props;
     const item = data.find((d) => d.time === payload.value);
@@ -49,12 +53,7 @@ function TwentyFourHoursChart({ data }: { data: TwentyFourHoursWeather[] }) {
           height={30}
           href={`https://openweathermap.org/img/wn/${item?.icon}@2x.png`}
         />
-        <text
-          x={0}
-          y={15}
-          textAnchor="middle"
-          className="text-xs fill-gray-600"
-        >
+        <text x={0} y={15} textAnchor="middle" className="text-sm">
           {payload.value}
         </text>
       </g>
@@ -62,7 +61,7 @@ function TwentyFourHoursChart({ data }: { data: TwentyFourHoursWeather[] }) {
   };
 
   return (
-    <section className="max-w-[680px] mx-auto px-5 mt-15">
+    <section className="max-w-[680px] mx-auto px-5 mt-10">
       <h2 className="font-medium">24시간 일기예보</h2>
       <div className="w-full mt-5 h-[150px]">
         <ResponsiveContainer>

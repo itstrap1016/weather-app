@@ -30,6 +30,20 @@ export class WeatherApiRepository implements WeatherRepository {
   async getCurrentWeather(lat: number, lon: number): Promise<Weather> {
     const data = await this.apiClient.getCurrentWeather(lat, lon);
 
+    const getWindDirection = (deg: number) => {
+      if (deg >= 337.5 || deg < 22.5) return "북";
+      if (deg >= 22.5 && deg < 67.5) return "북동";
+      if (deg >= 67.5 && deg < 112.5) return "동";
+      if (deg >= 112.5 && deg < 157.5) return "남동";
+      if (deg >= 157.5 && deg < 202.5) return "남";
+      if (deg >= 202.5 && deg < 247.5) return "남서";
+      if (deg >= 247.5 && deg < 292.5) return "서";
+      if (deg >= 292.5 && deg < 337.5) return "북서";
+      return "북";
+    };
+
+    const msToKmh = (ms: number) => Math.round(ms * 3.6 * 10) / 10;
+
     return {
       temperature: Math.round(data.main.temp),
       description: data.weather[0].description,
@@ -37,6 +51,11 @@ export class WeatherApiRepository implements WeatherRepository {
       city: data.name,
       temp_max: Math.round(data.main.temp_max),
       temp_min: Math.round(data.main.temp_min),
+      wind: {
+        direction: getWindDirection(data.wind.deg),
+        speed: msToKmh(data.wind.speed),
+        deg: data.wind.deg,
+      },
     };
   }
 

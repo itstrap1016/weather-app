@@ -1,5 +1,6 @@
 @import "tailwindcss";
 
 @theme {
-  --color-main: "#222222";
+  --color-main: #222222;
+  --color-line-gray: #ededed;
 }

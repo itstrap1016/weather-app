@@ -1,6 +1,10 @@
 import type { FiveDaysWeather } from "@/domain/weather";
 
-function FiveDaysWeatherList({ data }: { data: FiveDaysWeather[] }) {
+interface FiveDaysWeatherListProps {
+  data: FiveDaysWeather[];
+}
+
+function FiveDaysWeatherList({ data }: FiveDaysWeatherListProps) {
   return (
     <section className="max-w-[680px] mx-auto px-5">
       <h2 className="font-medium">5일간 일기예보</h2>

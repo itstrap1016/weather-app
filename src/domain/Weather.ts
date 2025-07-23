@@ -5,6 +5,11 @@ export interface Weather {
   city: string;
   temp_max: number;
   temp_min: number;
+  wind: {
+    speed: number;
+    direction: string;
+    deg: number;
+  };
 }
 
 export interface AQI {
