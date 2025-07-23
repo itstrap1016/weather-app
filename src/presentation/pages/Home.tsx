@@ -3,6 +3,7 @@ import CurrentWeather from "../components/CurrentWeather";
 import FiveDaysWeatherList from "../components/FiveDaysWeather";
 import TwentyFourHoursChart from "../components/TwetyFourHoursChart";
 import WindCompass from "../components/WindCompass";
+import SunArc from "../components/SunArc";
 import { useGeolocation } from "@/presentation/hooks/useGeolocation";
 import { useWeather } from "@/presentation/hooks/useWeather";
 import { useAQI } from "../hooks/useAQI";
@@ -84,12 +85,16 @@ function Home() {
       <CurrentWeather weatherData={weatherData} aqiData={aqiData} />
       <FiveDaysWeatherList data={fiveDaysWeatherData} />
       <TwentyFourHoursChart data={twentyFourHoursWeatherData} />
-      <div className="max-w-[680px] px-[20px] mx-auto mt-10 flex gap-2">
-        <div className="w-1/2">
+      <div className="max-w-[680px] px-[20px] mx-auto mt-10 flex gap-2 pb-10">
+        <div className="w-1/2 flex flex-col gap-2">
           <WindCompass
             speed={weatherData.wind.speed}
             direction={weatherData.wind.direction}
             deg={weatherData.wind.deg}
+          />
+          <SunArc
+            sunrise={weatherData.sun.sunrise}
+            sunset={weatherData.sun.sunset}
           />
         </div>
       </div>

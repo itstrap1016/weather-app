@@ -1,6 +1,7 @@
 import type {
   AQI,
   FiveDaysWeather,
+  RainProbability,
   TwentyFourHoursWeather,
   Weather,
 } from "@/domain/weather";
@@ -18,6 +19,7 @@ interface ForecastItem {
     icon: string;
   }>;
   dt_txt: string;
+  pop?: number; // Probability of precipitation (optional)
 }
 
 export class WeatherApiRepository implements WeatherRepository {
@@ -30,16 +32,27 @@ export class WeatherApiRepository implements WeatherRepository {
   async getCurrentWeather(lat: number, lon: number): Promise<Weather> {
     const data = await this.apiClient.getCurrentWeather(lat, lon);
 
-    const getWindDirection = (deg: number) => {
-      if (deg >= 337.5 || deg < 22.5) return "북";
-      if (deg >= 22.5 && deg < 67.5) return "북동";
-      if (deg >= 67.5 && deg < 112.5) return "동";
-      if (deg >= 112.5 && deg < 157.5) return "남동";
-      if (deg >= 157.5 && deg < 202.5) return "남";
-      if (deg >= 202.5 && deg < 247.5) return "남서";
-      if (deg >= 247.5 && deg < 292.5) return "서";
-      if (deg >= 292.5 && deg < 337.5) return "북서";
-      return "북";
+    const getWindDirection = (deg: number): string => {
+      switch (true) {
+        case deg >= 337.5 || deg < 22.5:
+          return "북";
+        case deg >= 22.5 && deg < 67.5:
+          return "북동";
+        case deg >= 67.5 && deg < 112.5:
+          return "동";
+        case deg >= 112.5 && deg < 157.5:
+          return "남동";
+        case deg >= 157.5 && deg < 202.5:
+          return "남";
+        case deg >= 202.5 && deg < 247.5:
+          return "남서";
+        case deg >= 247.5 && deg < 292.5:
+          return "서";
+        case deg >= 292.5 && deg < 337.5:
+          return "북서";
+        default:
+          return "북";
+      }
     };
 
     const msToKmh = (ms: number) => Math.round(ms * 3.6 * 10) / 10;
@@ -51,10 +64,17 @@ export class WeatherApiRepository implements WeatherRepository {
       city: data.name,
       temp_max: Math.round(data.main.temp_max),
       temp_min: Math.round(data.main.temp_min),
+      feels_like: data.main.feels_like,
+      humidity: data.main.humidity,
+      pressure: data.main.pressure,
       wind: {
         direction: getWindDirection(data.wind.deg),
         speed: msToKmh(data.wind.speed),
         deg: data.wind.deg,
+      },
+      sun: {
+        sunrise: data.sys.sunrise,
+        sunset: data.sys.sunset,
       },
     };
   }
@@ -125,5 +145,20 @@ export class WeatherApiRepository implements WeatherRepository {
       }));
 
     return twentyFourHoursData;
+  }
+
+  async getRainProbability(lat: number, lon: number): Promise<RainProbability> {
+    const data = await this.apiClient.getFiveDaysWeather(lat, lon);
+    const today = new Date().toISOString().split("T")[0];
+
+    const todayForecasts = data.list.filter((item: ForecastItem) => {
+      const itemDate = item.dt_txt.split(" ")[0];
+      return itemDate === today;
+    });
+    const maxPop = Math.max(
+      ...todayForecasts.map((item: ForecastItem) => item.pop || 0)
+    );
+
+    return Math.round(maxPop * 100); // 0.36 → 36%
   }
 }

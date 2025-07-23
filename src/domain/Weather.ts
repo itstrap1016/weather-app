@@ -5,10 +5,17 @@ export interface Weather {
   city: string;
   temp_max: number;
   temp_min: number;
+  feels_like: number;
+  humidity: number;
+  pressure: number;
   wind: {
     speed: number;
     direction: string;
     deg: number;
+  };
+  sun: {
+    sunrise: number;
+    sunset: number;
   };
 }
 
@@ -29,3 +36,5 @@ export interface TwentyFourHoursWeather {
   icon: string;
   time: string;
 }
+
+export type RainProbability = number;

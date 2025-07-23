@@ -33,7 +33,7 @@ export default function WindCompass({
           y={15}
           textAnchor="middle"
           fontSize={10}
-          fill="#222222"
+          fill="#666666"
           fontWeight="bold"
         >
           북
@@ -43,7 +43,7 @@ export default function WindCompass({
           y={70}
           textAnchor="middle"
           fontSize={10}
-          fill="#222222"
+          fill="#666666"
           fontWeight="bold"
         >
           남
@@ -53,7 +53,7 @@ export default function WindCompass({
           y={45}
           textAnchor="middle"
           fontSize={10}
-          fill="#222222"
+          fill="#666666"
           fontWeight="bold"
         >
           동
@@ -63,7 +63,7 @@ export default function WindCompass({
           y={45}
           textAnchor="middle"
           fontSize={10}
-          fill="#222222"
+          fill="#666666"
           fontWeight="bold"
         >
           서
@@ -77,12 +77,12 @@ export default function WindCompass({
             y1={20}
             x2={40}
             y2={60}
-            stroke="#222222"
+            stroke="#666666"
             strokeWidth={3}
             strokeLinecap="round"
           />
           {/* 화살표 머리 */}
-          <polygon points="40,15 35,25 45,25" fill="#222222" />
+          <polygon points="40,15 35,25 45,25" fill="#666666" />
         </g>
       </svg>
     </section>
