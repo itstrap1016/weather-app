@@ -83,10 +83,10 @@ function Home() {
     !fiveDaysWeatherData ||
     twentyFourHoursWeatherError ||
     !twentyFourHoursWeatherData ||
-    !rainProbabilityData ||
     rainProbabilityError ||
-    !minMaxTempData ||
-    minMaxError
+    !rainProbabilityData ||
+    minMaxError ||
+    !minMaxTempData
   ) {
     return <Error />;
   }

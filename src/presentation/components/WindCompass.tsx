@@ -27,7 +27,7 @@ export default function WindCompass({
           <circle
             cx={40}
             cy={40}
-            r={35}
+            r={40}
             fill="white"
             stroke="#dbdbdb"
             strokeWidth={1}
