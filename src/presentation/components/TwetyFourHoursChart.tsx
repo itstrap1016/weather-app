@@ -11,6 +11,7 @@ interface CustomTickProps {
   x?: number;
   y?: number;
   payload: { value: string };
+  data: TwentyFourHoursWeather[];
 }
 
 const CustomDot = (props: DotProps & { payload?: TwentyFourHoursWeather }) => {
@@ -40,27 +41,27 @@ const CustomDot = (props: DotProps & { payload?: TwentyFourHoursWeather }) => {
   );
 };
 
+const CustomXAxisTick = (props: CustomTickProps) => {
+  const { x = 0, y = 0, payload } = props;
+  const item = props.data.find((d) => d.time === payload.value);
+
+  return (
+    <g transform={`translate(${x},${y})`}>
+      <image
+        x={-15}
+        y={-30}
+        width={30}
+        height={30}
+        href={`https://openweathermap.org/img/wn/${item?.icon}@2x.png`}
+      />
+      <text x={0} y={15} textAnchor="middle" className="text-sm">
+        {payload.value}
+      </text>
+    </g>
+  );
+};
+
 function TwentyFourHoursChart({ data }: TwentyFourHoursChartProps) {
-  const CustomXAxisTick = (props: CustomTickProps) => {
-    const { x = 0, y = 0, payload } = props;
-    const item = data.find((d) => d.time === payload.value);
-
-    return (
-      <g transform={`translate(${x},${y})`}>
-        <image
-          x={-15}
-          y={-30}
-          width={30}
-          height={30}
-          href={`https://openweathermap.org/img/wn/${item?.icon}@2x.png`}
-        />
-        <text x={0} y={15} textAnchor="middle" className="text-sm">
-          {payload.value}
-        </text>
-      </g>
-    );
-  };
-
   return (
     <section className={`${SECTION_LAYOUT} mt-10`}>
       <h2 className="font-medium">24시간 일기예보</h2>
@@ -71,7 +72,7 @@ function TwentyFourHoursChart({ data }: TwentyFourHoursChartProps) {
               dataKey="time"
               axisLine={false}
               tickLine={false}
-              tick={CustomXAxisTick}
+              tick={(props) => <CustomXAxisTick {...props} data={data} />}
             />
             <YAxis hide={true} />
             <Line
