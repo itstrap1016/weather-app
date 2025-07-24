@@ -1,8 +1,10 @@
+import { BOX } from "@/shared/constants/style";
+
 interface CurrentWeatherInfoProps {
   humidty: number;
   feels_like: number;
   pressure: number;
-  rainProbability: number | undefined;
+  rainProbability: string;
 }
 
 function CurrentWeatherInfo({
@@ -12,7 +14,7 @@ function CurrentWeatherInfo({
   rainProbability,
 }: CurrentWeatherInfoProps) {
   return (
-    <section className="rounded-2xl p-1 border-line-gray border-[1px] flex items-center justify-center gap-5 w-1/2">
+    <section className={`${BOX} flex items-center justify-center gap-5 w-1/2`}>
       <h2 className="sr-only">현재 날씨 정보</h2>
       <ul>
         <li className="flex items-center">

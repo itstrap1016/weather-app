@@ -1,48 +1,64 @@
+import { BOX } from "@/shared/constants/style";
+
 interface SunArcProps {
-  sunrise: number; // Unix timestamp
-  sunset: number; // Unix timestamp
+  sunrise: string;
+  sunset: string;
+  isDaytime: boolean;
+  progress: number;
 }
 
-function formatTime(timestamp: number): string {
-  return new Date(timestamp * 1000).toLocaleTimeString("ko-KR", {
-    hour: "2-digit",
-    minute: "2-digit",
-    hour12: false,
-  });
-}
-
-export default function SunArc({ sunrise, sunset }: SunArcProps) {
-  const now = Math.floor(Date.now() / 1000);
-
-  // 일출~일몰 구간에서 현재 시간의 비율 계산 (0~1)
-  const progress = Math.max(
-    0,
-    Math.min(1, (now - sunrise) / (sunset - sunrise))
-  );
-
-  // 현재 시간이 일출 전이거나 일몰 후인지 확인
-  const isDaytime = now >= sunrise && now <= sunset;
-
+export default function SunArc({
+  sunrise,
+  sunset,
+  isDaytime,
+  progress,
+}: SunArcProps) {
   // SVG 설정
-  const width = 220;
-  const height = 120;
-  const arcRadius = 90;
+  const width = 80;
+  const height = 160;
+  const centerX = width / 2;
+  const centerY = height / 2; // 박스의 중간 높이로 변경
 
-  // 해의 위치 계산 (아치 위의 점)
-  const angle = Math.PI * progress;
-  const sunX = 20 + arcRadius * Math.cos(Math.PI - angle);
-  const sunY = height - 20 - arcRadius * Math.sin(angle);
+  // Quadratic curve의 제어점을 이용한 해의 위치 계산
+  const startX = 0;
+  const endX = width;
+  const controlX = centerX;
+  const controlY = centerY - 80; // 곡선의 최고점
+
+  // Quadratic Bezier curve 위의 점 계산
+  const t = progress; // 0~1
+  const sunX =
+    (1 - t) * (1 - t) * startX + 2 * (1 - t) * t * controlX + t * t * endX;
+  const sunY =
+    (1 - t) * (1 - t) * centerY + 2 * (1 - t) * t * controlY + t * t * centerY;
 
   return (
-    <section className="rounded-2xl p-4 border-line-gray border-[1px] h-[120px] relative overflow-hidden">
+    <section className={`${BOX} h-[120px] relative overflow-hidden flex gap-3`}>
       <h2 className="sr-only">일출 일몰 시간</h2>
-      <div className="absolute inset-0">
-        <svg width={width} height={height} viewBox={`0 0 ${width} ${height}`}>
-          {/* 아치 곡선 */}
+
+      {/* 텍스트 영역 - 50% */}
+      <div className="basis-full flex flex-col justify-center items-center gap-1">
+        <p className="mb-1 flex gap-0.5 text-sm">
+          <span className="font-medium">{sunrise}</span>
+          <span>일출</span>
+        </p>
+        <p className="flex gap-0.5 text-sm">
+          <span>{sunset}</span>
+          <span>일몰</span>
+        </p>
+      </div>
+
+      {/* SVG 영역 - 50% */}
+      <div className="basis-full relative">
+        <svg
+          width={width}
+          height={height}
+          viewBox={`0 0 ${width} ${height}`}
+          className="absolute -top-2 right-1/2 translate-x-1/2"
+        >
+          {/* 곡선 (Quadratic curve로 더 자연스러운 호) */}
           <path
-            d={`M 20 ${height - 20} A ${arcRadius} ${arcRadius} 0 0 1 ${
-              width - 20
-            } ${height - 20}`}
+            d={`M ${startX} ${centerY} Q ${controlX} ${controlY} ${endX} ${centerY}`}
             stroke="#dbdbdb"
             strokeWidth={2}
             fill="none"
@@ -53,20 +69,23 @@ export default function SunArc({ sunrise, sunset }: SunArcProps) {
             <circle
               cx={sunX}
               cy={sunY}
-              r={8}
+              r={6}
               fill="#ff7300"
-              filter="drop-shadow(0 0 12px rgba(255,255,255,0.8))"
+              filter="drop-shadow(0 0 8px rgba(255,179,0,0.6))"
+            />
+          )}
+
+          {/* 밤일 때 달 표시 (선택사항) */}
+          {!isDaytime && (
+            <circle
+              cx={endX}
+              cy={centerY - 10}
+              r={4}
+              fill="#ffe9a7"
+              filter="drop-shadow(0 0 6px #ffe9a7)"
             />
           )}
         </svg>
-      </div>
-
-      {/* 텍스트 */}
-      <div className="relative z-10">
-        <div className="text-lg font-medium mb-1">
-          {formatTime(sunrise)} 일출
-        </div>
-        <div className="text-lg font-medium">{formatTime(sunset)} 일몰</div>
       </div>
     </section>
   );

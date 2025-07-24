@@ -1,6 +1,7 @@
 import type { TwentyFourHoursWeather } from "@/domain/weather";
 import { LineChart, Line, XAxis, YAxis, ResponsiveContainer } from "recharts";
 import type { DotProps } from "recharts";
+import { SECTION_LAYOUT } from "@/shared/constants/style";
 
 interface TwentyFourHoursChartProps {
   data: TwentyFourHoursWeather[];
@@ -61,7 +62,7 @@ function TwentyFourHoursChart({ data }: TwentyFourHoursChartProps) {
   };
 
   return (
-    <section className="max-w-[680px] mx-auto px-5 mt-10">
+    <section className={`${SECTION_LAYOUT} mt-10`}>
       <h2 className="font-medium">24시간 일기예보</h2>
       <div className="w-full mt-5 h-[150px]">
         <ResponsiveContainer>

@@ -14,8 +14,10 @@ export interface Weather {
     deg: number;
   };
   sun: {
-    sunrise: number;
-    sunset: number;
+    sunrise: string;
+    sunset: string;
+    isDaytime: boolean;
+    progress: number;
   };
 }
 
@@ -37,4 +39,4 @@ export interface TwentyFourHoursWeather {
   time: string;
 }
 
-export type RainProbability = number;
+export type RainProbability = string;

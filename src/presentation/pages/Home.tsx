@@ -4,13 +4,14 @@ import FiveDaysWeatherList from "../components/FiveDaysWeather";
 import TwentyFourHoursChart from "../components/TwetyFourHoursChart";
 import WindCompass from "../components/WindCompass";
 import SunArc from "../components/SunArc";
+import CurrentWeatherInfo from "../components/CurrentWeatherInfo";
 import { useGeolocation } from "@/presentation/hooks/useGeolocation";
 import { useWeather } from "@/presentation/hooks/useWeather";
 import { useAQI } from "../hooks/useAQI";
 import { useFiveDaysWeather } from "../hooks/useFiveDaysWeather";
 import { use24HoursWeather } from "../hooks/use24HoursWeather";
 import { useRainProbability } from "../hooks/useRainProbability";
-import CurrentWeatherInfo from "../components/CurrentWeatherInfo";
+import { SECTION_LAYOUT } from "@/shared/constants/style";
 
 function Home() {
   const { location, permission, requestPermission } = useGeolocation();
@@ -39,8 +40,6 @@ function Home() {
     isLoading: rainProbabilityLoading,
     isError: rainProbabilityError,
   } = useRainProbability(location);
-
-  console.log(rainProbabilityData);
 
   if (permission.loading) {
     return (
@@ -83,6 +82,7 @@ function Home() {
     !fiveDaysWeatherData ||
     twentyFourHoursWeatherError ||
     !twentyFourHoursWeatherData ||
+    !rainProbabilityData ||
     rainProbabilityError
   ) {
     return (
@@ -96,7 +96,7 @@ function Home() {
       <CurrentWeather weatherData={weatherData} aqiData={aqiData} />
       <FiveDaysWeatherList data={fiveDaysWeatherData} />
       <TwentyFourHoursChart data={twentyFourHoursWeatherData} />
-      <div className="max-w-[680px] px-[20px] mx-auto mt-10 flex gap-2 pb-10">
+      <div className={`${SECTION_LAYOUT} mt-10 flex gap-2 pb-10`}>
         <div className="flex flex-col gap-2 w-1/2">
           <WindCompass
             speed={weatherData.wind.speed}
@@ -106,6 +106,8 @@ function Home() {
           <SunArc
             sunrise={weatherData.sun.sunrise}
             sunset={weatherData.sun.sunset}
+            isDaytime={weatherData.sun.isDaytime}
+            progress={weatherData.sun.progress}
           />
         </div>
         <CurrentWeatherInfo

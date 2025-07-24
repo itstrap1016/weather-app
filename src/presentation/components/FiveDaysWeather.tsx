@@ -1,4 +1,5 @@
 import type { FiveDaysWeather } from "@/domain/weather";
+import { SECTION_LAYOUT } from "@/shared/constants/style";
 
 interface FiveDaysWeatherListProps {
   data: FiveDaysWeather[];
@@ -6,7 +7,7 @@ interface FiveDaysWeatherListProps {
 
 function FiveDaysWeatherList({ data }: FiveDaysWeatherListProps) {
   return (
-    <section className="max-w-[680px] mx-auto px-5">
+    <section className={`${SECTION_LAYOUT}`}>
       <h2 className="font-medium">5일간 일기예보</h2>
       <ul className="mt-5">
         {data.map((item, index) => (
