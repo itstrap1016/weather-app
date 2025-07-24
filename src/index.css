@@ -4,3 +4,8 @@
   --color-main: #222222;
   --color-line-gray: #ededed;
 }
+
+body {
+  font-family: "Noto Sans KR", sans-serif;
+  color: #222222;
+}

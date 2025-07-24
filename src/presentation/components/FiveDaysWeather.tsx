@@ -18,12 +18,12 @@ function FiveDaysWeatherList({ data }: FiveDaysWeatherListProps) {
                 alt={item.description}
                 className="w-12 h-12"
               />
-              <p className="font-medium flex items-center gap-1">
+              <p className="flex items-center gap-1">
                 <span>{item.date}</span>
                 <span>{item.description}</span>
               </p>
             </div>
-            <p>{item.temparature}°</p>
+            <p className="font-medium">{item.temparature}°</p>
           </li>
         ))}
       </ul>

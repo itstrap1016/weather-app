@@ -12,6 +12,7 @@ import { useFiveDaysWeather } from "../hooks/useFiveDaysWeather";
 import { use24HoursWeather } from "../hooks/use24HoursWeather";
 import { useRainProbability } from "../hooks/useRainProbability";
 import { SECTION_LAYOUT } from "@/shared/constants/style";
+import { useGetMinMaxTemp } from "../hooks/useGetMinMaxTemp";
 
 function Home() {
   const { location, permission, requestPermission } = useGeolocation();
@@ -40,6 +41,11 @@ function Home() {
     isLoading: rainProbabilityLoading,
     isError: rainProbabilityError,
   } = useRainProbability(location);
+  const {
+    data: minMaxTempData,
+    isLoading: minMaxLoading,
+    isError: minMaxError,
+  } = useGetMinMaxTemp(location);
 
   if (permission.loading) {
     return (
@@ -66,7 +72,8 @@ function Home() {
     aqiLoading ||
     fiveDaysLoading ||
     twentyFourHoursWeatherLoading ||
-    rainProbabilityLoading
+    rainProbabilityLoading ||
+    minMaxLoading
   ) {
     return (
       <div className="p-4 text-center">날씨 정보를 불러오는 중입니다...</div>
@@ -83,7 +90,9 @@ function Home() {
     twentyFourHoursWeatherError ||
     !twentyFourHoursWeatherData ||
     !rainProbabilityData ||
-    rainProbabilityError
+    rainProbabilityError ||
+    !minMaxTempData ||
+    minMaxError
   ) {
     return (
       <div className="p-4 text-center">날씨 정보를 불러올 수 없습니다.</div>
@@ -93,7 +102,11 @@ function Home() {
   return (
     <>
       <Navigation city={weatherData.city} />
-      <CurrentWeather weatherData={weatherData} aqiData={aqiData} />
+      <CurrentWeather
+        weatherData={weatherData}
+        aqiData={aqiData}
+        minMaxTempData={minMaxTempData}
+      />
       <FiveDaysWeatherList data={fiveDaysWeatherData} />
       <TwentyFourHoursChart data={twentyFourHoursWeatherData} />
       <div className={`${SECTION_LAYOUT} mt-10 flex gap-2 pb-10`}>

@@ -36,19 +36,17 @@ export default function SunArc({
     <section className={`${BOX} h-[120px] relative overflow-hidden flex gap-3`}>
       <h2 className="sr-only">일출 일몰 시간</h2>
 
-      {/* 텍스트 영역 - 50% */}
       <div className="basis-full flex flex-col justify-center items-center gap-1">
         <p className="mb-1 flex gap-0.5 text-sm">
           <span className="font-medium">{sunrise}</span>
           <span>일출</span>
         </p>
         <p className="flex gap-0.5 text-sm">
-          <span>{sunset}</span>
+          <span className="font-medium">{sunset}</span>
           <span>일몰</span>
         </p>
       </div>
 
-      {/* SVG 영역 - 50% */}
       <div className="basis-full relative">
         <svg
           width={width}

@@ -3,8 +3,6 @@ export interface Weather {
   description: string;
   icon: string;
   city: string;
-  temp_max: number;
-  temp_min: number;
   feels_like: number;
   humidity: number;
   pressure: number;
@@ -40,3 +38,8 @@ export interface TwentyFourHoursWeather {
 }
 
 export type RainProbability = string;
+
+export interface MinMaxTemp {
+  temp_min: number;
+  temp_max: number;
+}

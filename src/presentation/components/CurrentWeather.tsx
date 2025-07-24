@@ -1,11 +1,16 @@
-import type { Weather, AQI } from "@/domain/weather";
+import type { Weather, AQI, MinMaxTemp } from "@/domain/weather";
 
 interface CurrentWeatherProps {
   weatherData: Weather;
   aqiData: AQI;
+  minMaxTempData: MinMaxTemp;
 }
 
-function CurrentWeather({ weatherData, aqiData }: CurrentWeatherProps) {
+function CurrentWeather({
+  weatherData,
+  aqiData,
+  minMaxTempData,
+}: CurrentWeatherProps) {
   return (
     <section className="py-15 flex flex-col items-center">
       <h2 className="sr-only">현재 날씨</h2>
@@ -23,9 +28,9 @@ function CurrentWeather({ weatherData, aqiData }: CurrentWeatherProps) {
       <div className="flex items-center gap-2 mt-4">
         <p>{weatherData.description}</p>
         <div className="flex items-center gap-0.5">
-          <p className="font-medium">{weatherData.temp_max}°</p>
+          <p>{minMaxTempData.temp_max}°</p>
           <span>/</span>
-          <p className="font-medium">{weatherData.temp_min}°</p>
+          <p>{minMaxTempData.temp_min}°</p>
         </div>
       </div>
       <p className="flex gap-2 mt-4">

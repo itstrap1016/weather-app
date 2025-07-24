@@ -4,6 +4,7 @@ import type {
   RainProbability,
   TwentyFourHoursWeather,
   Weather,
+  MinMaxTemp,
 } from "@/domain/weather";
 import { WeatherApiClient } from "@/infrastructure/api/api-client";
 import type { WeatherRepository } from "@/application/repositories";
@@ -19,7 +20,15 @@ interface ForecastItem {
     icon: string;
   }>;
   dt_txt: string;
-  pop?: number; // Probability of precipitation (optional)
+  pop?: number;
+}
+
+function filterTodayForecasts(list: ForecastItem[]): ForecastItem[] {
+  const today = new Date().toISOString().split("T")[0];
+  return list.filter((item: ForecastItem) => {
+    const itemDate = item.dt_txt.split(" ")[0];
+    return itemDate === today;
+  });
 }
 
 export class WeatherApiRepository implements WeatherRepository {
@@ -82,8 +91,6 @@ export class WeatherApiRepository implements WeatherRepository {
       description: data.weather[0].description,
       icon: data.weather[0].icon,
       city: data.name,
-      temp_max: Math.round(data.main.temp_max),
-      temp_min: Math.round(data.main.temp_min),
       feels_like: data.main.feels_like,
       humidity: data.main.humidity,
       pressure: data.main.pressure,
@@ -154,33 +161,32 @@ export class WeatherApiRepository implements WeatherRepository {
     lon: number
   ): Promise<TwentyFourHoursWeather[]> {
     const data = await this.apiClient.getFiveDaysWeather(lat, lon);
-    const today = new Date().toISOString().split("T")[0];
-    const twentyFourHoursData = data.list
-      .filter((item: ForecastItem) => {
-        const itemDate = item.dt_txt.split(" ")[0];
-        return itemDate === today;
-      })
-      .map((item: ForecastItem) => ({
-        temparature: Math.round(item.main.temp),
-        icon: item.weather[0].icon,
-        time: item.dt_txt.split(" ")[1].slice(0, 5),
-      }));
-
-    return twentyFourHoursData;
+    return filterTodayForecasts(data.list).map((item: ForecastItem) => ({
+      temparature: Math.round(item.main.temp),
+      icon: item.weather[0].icon,
+      time: item.dt_txt.split(" ")[1].slice(0, 5),
+    }));
   }
 
   async getRainProbability(lat: number, lon: number): Promise<RainProbability> {
     const data = await this.apiClient.getFiveDaysWeather(lat, lon);
-    const today = new Date().toISOString().split("T")[0];
-
-    const todayForecasts = data.list.filter((item: ForecastItem) => {
-      const itemDate = item.dt_txt.split(" ")[0];
-      return itemDate === today;
-    });
     const maxPop = Math.max(
-      ...todayForecasts.map((item: ForecastItem) => item.pop || 0)
+      ...filterTodayForecasts(data.list).map(
+        (item: ForecastItem) => item.pop || 0
+      )
     );
 
-    return Math.round(maxPop * 100).toString(); // 0.36 → 36%
+    return Math.round(maxPop * 100).toString();
+  }
+
+  async getMinMaxTemp(lat: number, lon: number): Promise<MinMaxTemp> {
+    const data = await this.apiClient.getFiveDaysWeather(lat, lon);
+    const temps = filterTodayForecasts(data.list).map(
+      (item: ForecastItem) => item.main.temp
+    );
+    return {
+      temp_min: Math.round(Math.min(...temps)),
+      temp_max: Math.round(Math.max(...temps)),
+    };
   }
 }

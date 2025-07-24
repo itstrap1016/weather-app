@@ -22,7 +22,7 @@ export default function WindCompass({
         </div>
       </div>
       <div className="basis-full flex justify-center">
-        <svg width={90} height={90} viewBox="0 0 80 80">
+        <svg width={80} height={80} viewBox="0 0 80 80">
           {/* 외곽 원 */}
           <circle
             cx={40}
