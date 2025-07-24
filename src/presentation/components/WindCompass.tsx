@@ -23,7 +23,6 @@ export default function WindCompass({
       </div>
       <div className="basis-full flex justify-center">
         <svg width={80} height={80} viewBox="0 0 80 80">
-          {/* 외곽 원 */}
           <circle
             cx={40}
             cy={40}
@@ -32,8 +31,6 @@ export default function WindCompass({
             stroke="#dbdbdb"
             strokeWidth={1}
           />
-
-          {/* 방향 표시 (N, E, S, W) */}
           <text
             x={40}
             y={15}
@@ -74,21 +71,17 @@ export default function WindCompass({
           >
             서
           </text>
-
-          {/* 바람 화살표 (deg도 만큼 회전) */}
           <g transform={`rotate(${(deg + 180) % 360} 40 40)`}>
-            {/* 화살표 몸통 */}
             <line
               x1={40}
-              y1={20}
+              y1={22}
               x2={40}
-              y2={60}
+              y2={58}
               stroke="#666666"
-              strokeWidth={3}
+              strokeWidth={2}
               strokeLinecap="round"
             />
-            {/* 화살표 머리 */}
-            <polygon points="40,15 35,25 45,25" fill="#666666" />
+            <polygon points="40,16 37,24 43,24" fill="#666666" />
           </g>
         </svg>
       </div>

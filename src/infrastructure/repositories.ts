@@ -23,13 +23,13 @@ interface ForecastItem {
   pop?: number;
 }
 
-function filterTodayForecasts(list: ForecastItem[]): ForecastItem[] {
+const filterTodayForecasts = (list: ForecastItem[]): ForecastItem[] => {
   const today = new Date().toISOString().split("T")[0];
   return list.filter((item: ForecastItem) => {
     const itemDate = item.dt_txt.split(" ")[0];
     return itemDate === today;
   });
-}
+};
 
 export class WeatherApiRepository implements WeatherRepository {
   private apiClient: WeatherApiClient;

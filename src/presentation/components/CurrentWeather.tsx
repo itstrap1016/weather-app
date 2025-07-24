@@ -1,5 +1,19 @@
 import type { Weather, AQI, MinMaxTemp } from "@/domain/weather";
 
+const getAqiColor = (level: string) => {
+  switch (level) {
+    case "좋음":
+      return "text-sky-400";
+    case "보통":
+      return "text-green-500";
+    case "나쁨":
+    case "매우 나쁨":
+      return "text-red-500";
+    default:
+      return "";
+  }
+};
+
 interface CurrentWeatherProps {
   weatherData: Weather;
   aqiData: AQI;
@@ -36,7 +50,7 @@ function CurrentWeather({
       <p className="flex gap-2 mt-4">
         <span>AQI</span>
         <span>{aqiData.aqi}</span>
-        <span>{aqiData.level}</span>
+        <span className={getAqiColor(aqiData.level)}>{aqiData.level}</span>
       </p>
     </section>
   );
