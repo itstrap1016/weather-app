@@ -1,6 +1,10 @@
 import { useState, useEffect } from "react";
 import type { CityInfo } from "@/domain/weather";
-import { CITY_LIST } from "@/shared/constants/storage";
+import {
+  CITY_LIST,
+  DEFAULT_CITY,
+  SELECTED_CITY,
+} from "@/shared/constants/storage";
 
 export function useCityList() {
   const [cityList, setCityList] = useState<CityInfo[]>([]);
@@ -31,7 +35,7 @@ export function useCityList() {
   };
 
   // 도시를 cityList에서 제거
-  const removeCityFromList = (city: CityInfo) => {
+  const removeCityFromList = (city: CityInfo, additionalOption?: boolean) => {
     const updatedList = cityList.filter(
       (savedCity) =>
         !(
@@ -42,6 +46,12 @@ export function useCityList() {
     );
     setCityList(updatedList);
     localStorage.setItem(CITY_LIST, JSON.stringify(updatedList));
+    if (additionalOption) {
+      const defaultCity = localStorage.getItem(DEFAULT_CITY);
+      if (defaultCity) {
+        localStorage.setItem(SELECTED_CITY, defaultCity);
+      }
+    }
   };
 
   return {

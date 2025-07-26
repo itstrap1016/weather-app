@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import type { SelectedCity } from "@/domain/weather";
 import type { Coordinates } from "@/shared/types/common-types";
-import { SELECTED_CITY } from "@/shared/constants/storage";
+import { DEFAULT_CITY, SELECTED_CITY } from "@/shared/constants/storage";
 
 interface LocationPermission {
   granted: boolean;
@@ -12,6 +12,10 @@ interface LocationPermission {
 
 const saveSelectedCity = (city: SelectedCity) => {
   localStorage.setItem(SELECTED_CITY, JSON.stringify(city));
+};
+
+const saveDefaultCity = (city: SelectedCity) => {
+  localStorage.setItem(DEFAULT_CITY, JSON.stringify(city));
 };
 
 const getSelectedCity = (): SelectedCity | null => {
@@ -43,6 +47,10 @@ export function useGeolocation() {
           lon: pos.coords.longitude,
         });
         saveSelectedCity({
+          lat: pos.coords.latitude,
+          lon: pos.coords.longitude,
+        });
+        saveDefaultCity({
           lat: pos.coords.latitude,
           lon: pos.coords.longitude,
         });
