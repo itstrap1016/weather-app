@@ -7,18 +7,18 @@ interface SunArcProps {
   progress: number;
 }
 
+// SVG 설정
+const width = 80;
+const height = 160;
+const centerX = width / 2;
+const centerY = height / 2; // 박스의 중간 높이로 변경
+
 export default function SunArc({
   sunrise,
   sunset,
   isDaytime,
   progress,
 }: SunArcProps) {
-  // SVG 설정
-  const width = 80;
-  const height = 160;
-  const centerX = width / 2;
-  const centerY = height / 2; // 박스의 중간 높이로 변경
-
   // Quadratic curve의 제어점을 이용한 해의 위치 계산
   const startX = 10;
   const endX = width - 10;
