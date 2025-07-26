@@ -43,3 +43,8 @@ export interface MinMaxTemp {
   temp_min: number;
   temp_max: number;
 }
+
+export interface City {
+  lat: number;
+  lon: number;
+}
