@@ -48,8 +48,7 @@ function CurrentWeather({
         </div>
       </div>
       <p className="flex gap-2 mt-4">
-        <span>AQI</span>
-        <span>{aqiData.aqi}</span>
+        <span>AQI {aqiData.aqi}</span>
         <span className={getAqiColor(aqiData.level)}>{aqiData.level}</span>
       </p>
     </section>

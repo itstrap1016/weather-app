@@ -20,8 +20,8 @@ export default function SunArc({
   const centerY = height / 2; // 박스의 중간 높이로 변경
 
   // Quadratic curve의 제어점을 이용한 해의 위치 계산
-  const startX = 0;
-  const endX = width;
+  const startX = 10;
+  const endX = width - 10;
   const controlX = centerX;
   const controlY = centerY - 80; // 곡선의 최고점
 
@@ -77,7 +77,7 @@ export default function SunArc({
           {!isDaytime && (
             <circle
               cx={endX}
-              cy={centerY - 10}
+              cy={centerY}
               r={4}
               fill="#ffe9a7"
               filter="drop-shadow(0 0 6px #ffe9a7)"
