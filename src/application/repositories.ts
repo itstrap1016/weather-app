@@ -5,6 +5,7 @@ import type {
   TwentyFourHoursWeather,
   RainProbability,
   MinMaxTemp,
+  CityInfo,
 } from "@/domain/weather";
 
 // 도메인 레벨에서 외부 데이터 소스에 대한 추상화
@@ -18,4 +19,5 @@ export interface WeatherRepository {
   ): Promise<TwentyFourHoursWeather[]>;
   getRainProbability(lat: number, lon: number): Promise<RainProbability>;
   getMinMaxTemp(lat: number, lon: number): Promise<MinMaxTemp>;
+  getCity(cityName: string): Promise<CityInfo>;
 }

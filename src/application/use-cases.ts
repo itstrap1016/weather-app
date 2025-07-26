@@ -1,5 +1,6 @@
 import type {
   AQI,
+  CityInfo,
   FiveDaysWeather,
   MinMaxTemp,
   RainProbability,
@@ -43,5 +44,9 @@ export class UseCases {
 
   async getMinMaxTemp(lat: number, lon: number): Promise<MinMaxTemp> {
     return await this.weatherRepository.getMinMaxTemp(lat, lon);
+  }
+
+  async getCity(cityName: string): Promise<CityInfo> {
+    return await this.weatherRepository.getCity(cityName);
   }
 }

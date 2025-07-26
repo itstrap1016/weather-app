@@ -52,4 +52,22 @@ export class WeatherApiClient {
       throw error;
     }
   }
+
+  async getCity(cityName: string) {
+    try {
+      const url = `${this.baseUrl}weather?q=${encodeURIComponent(
+        cityName
+      )}&appid=${this.apiKey}&units=${this.units}&lang=${
+        API_CONFIG.DEFAULT_PARAMS.lang
+      }`;
+      const response = await fetch(url);
+      if (!response.ok) {
+        throw new Error(`City Search API Error: ${response.status}`);
+      }
+      return await response.json();
+    } catch (error) {
+      console.error("getCity error:", error);
+      throw error;
+    }
+  }
 }

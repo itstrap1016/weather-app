@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import type { City } from "@/domain/weather";
+import type { SelectedCity } from "@/domain/weather";
 import type { Coordinates } from "@/shared/types/common-types";
 import { SELECTED_CITY } from "@/shared/constants/storage";
 
@@ -10,11 +10,11 @@ interface LocationPermission {
   error: string | null;
 }
 
-const saveSelectedCity = (city: City) => {
+const saveSelectedCity = (city: SelectedCity) => {
   localStorage.setItem(SELECTED_CITY, JSON.stringify(city));
 };
 
-const getSelectedCity = (): City | null => {
+const getSelectedCity = (): SelectedCity | null => {
   const stored = localStorage.getItem(SELECTED_CITY);
   return stored ? JSON.parse(stored) : null;
 };

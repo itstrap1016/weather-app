@@ -5,6 +5,7 @@ import type {
   TwentyFourHoursWeather,
   Weather,
   MinMaxTemp,
+  CityInfo,
 } from "@/domain/weather";
 import { WeatherApiClient } from "@/infrastructure/api/api-client";
 import type { WeatherRepository } from "@/application/repositories";
@@ -188,5 +189,17 @@ export class WeatherApiRepository implements WeatherRepository {
       temp_min: Math.round(Math.min(...temps)),
       temp_max: Math.round(Math.max(...temps)),
     };
+  }
+
+  async getCity(cityName: string): Promise<CityInfo> {
+    const data = await this.apiClient.getCity(cityName);
+    console.log(data);
+    const city = {
+      name: data.name,
+      lat: data.coord.lat,
+      lon: data.coord.lon,
+    };
+    console.log(city);
+    return city;
   }
 }
