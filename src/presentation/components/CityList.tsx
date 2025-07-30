@@ -19,7 +19,7 @@ function CityList() {
 
   return (
     <section className={`${SECTION_LAYOUT} py-5`}>
-      <h2 className="font-medium mb-5">저장된 도시 목록</h2>
+      <h2 className="font-medium mb-5 text-xl">저장된 도시 목록</h2>
 
       {cityList.length === 0 ? (
         <p className="text-center">저장된 도시가 없습니다.</p>
@@ -39,14 +39,14 @@ function CityList() {
               <div className="flex">
                 <button
                   onClick={() => handleSelectCity(city)}
-                  className="p-2 hover:bg-green-100 rounded-full transition-colors"
+                  className="p-1 hover:bg-green-100 rounded-full transition-colors"
                   aria-label={`${city.name} 선택`}
                 >
                   <LuMapPinCheckInside className="w-5 h-5 text-green-500" />
                 </button>
                 <button
                   onClick={() => removeCityFromList(city, true)}
-                  className="p-2 hover:bg-red-100 rounded-full transition-colors"
+                  className="p-1 hover:bg-red-100 rounded-full transition-colors"
                   aria-label={`${city.name} 삭제`}
                 >
                   <LuTrash2 className="w-5 h-5 text-red-500" />

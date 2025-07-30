@@ -36,7 +36,7 @@ function SearchForm() {
 
   return (
     <form className={`py-5 px-5 ${SECTION_LAYOUT}`} onSubmit={handleSubmit}>
-      <h2 className="sr-only">도시 검색</h2>
+      <h2 className="font-medium text-xl mb-5">도시 검색</h2>
       <input
         type="text"
         placeholder="Type City Name"

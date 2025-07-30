@@ -1,6 +1,6 @@
 import Navigation from "../components/Navigation";
 import CurrentWeather from "../components/CurrentWeather";
-import FiveDaysWeatherList from "../components/FiveDaysWeather";
+import FiveDaysForecasts from "../components/FiveDaysForecasts";
 import TwentyFourHoursChart from "../components/TwetyFourHoursChart";
 import WindCompass from "../components/WindCompass";
 import SunArc from "../components/SunArc";
@@ -99,7 +99,7 @@ function Home() {
         aqiData={aqiData}
         minMaxTempData={minMaxTempData}
       />
-      <FiveDaysWeatherList data={fiveDaysWeatherData} />
+      <FiveDaysForecasts data={fiveDaysWeatherData} />
       <TwentyFourHoursChart data={twentyFourHoursWeatherData} />
       <div className={`${SECTION_LAYOUT} mt-10 flex gap-2 pb-10`}>
         <div className="flex flex-col gap-2 w-1/2">

@@ -64,7 +64,7 @@ const CustomXAxisTick = (props: CustomTickProps) => {
 function TwentyFourHoursChart({ data }: TwentyFourHoursChartProps) {
   return (
     <section className={`${SECTION_LAYOUT} mt-10`}>
-      <h2 className="font-medium">24시간 일기예보</h2>
+      <h2 className="font-medium text-xl">24시간 일기예보</h2>
       <div className="w-full mt-5 h-[150px]">
         <ResponsiveContainer>
           <LineChart data={data} margin={{ top: 20, left: 20, right: 20 }}>

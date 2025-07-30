@@ -5,10 +5,10 @@ interface FiveDaysWeatherListProps {
   data: FiveDaysWeather[];
 }
 
-function FiveDaysWeatherList({ data }: FiveDaysWeatherListProps) {
+function FiveDaysForecasts({ data }: FiveDaysWeatherListProps) {
   return (
     <section className={`${SECTION_LAYOUT}`}>
-      <h2 className="font-medium">5일간 일기예보</h2>
+      <h2 className="font-medium text-xl">5일간 일기예보</h2>
       <ul className="mt-5">
         {data.map((item, index) => (
           <li key={index} className="flex justify-between items-center mt-2">
@@ -31,4 +31,4 @@ function FiveDaysWeatherList({ data }: FiveDaysWeatherListProps) {
   );
 }
 
-export default FiveDaysWeatherList;
+export default FiveDaysForecasts;
