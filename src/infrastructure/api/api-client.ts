@@ -1,19 +1,28 @@
 import { API_CONFIG } from "@/shared/constants/api";
+import {
+  TEMPERATURE_UNIT_KEY,
+  TEMPERATURE_UNITS,
+} from "@/shared/constants/temp-units";
 
 export class WeatherApiClient {
   private baseUrl: string;
   private apiKey: string;
-  private units: string;
 
   constructor() {
     this.baseUrl = API_CONFIG.BASE_URL;
     this.apiKey = API_CONFIG.API_KEY;
-    this.units = API_CONFIG.DEFAULT_PARAMS.units;
+  }
+
+  private getSelectedUnit(): string {
+    return (
+      localStorage.getItem(TEMPERATURE_UNIT_KEY) || TEMPERATURE_UNITS.CELSIUS
+    );
   }
 
   async getCurrentWeather(lat: number, lon: number) {
     try {
-      const url = `${this.baseUrl}weather?lat=${lat}&lon=${lon}&appid=${this.apiKey}&units=${API_CONFIG.DEFAULT_PARAMS.units}&lang=${API_CONFIG.DEFAULT_PARAMS.lang}`;
+      const units = this.getSelectedUnit();
+      const url = `${this.baseUrl}weather?lat=${lat}&lon=${lon}&appid=${this.apiKey}&units=${units}&lang=${API_CONFIG.DEFAULT_PARAMS.lang}`;
       const response = await fetch(url);
       if (!response.ok) {
         throw new Error(`Weather API Error: ${response.status}`);
@@ -41,7 +50,8 @@ export class WeatherApiClient {
 
   async getFiveDaysWeather(lat: number, lon: number) {
     try {
-      const url = `${this.baseUrl}forecast?lat=${lat}&lon=${lon}&appid=${this.apiKey}&units=${this.units}`;
+      const units = this.getSelectedUnit();
+      const url = `${this.baseUrl}forecast?lat=${lat}&lon=${lon}&appid=${this.apiKey}&units=${units}`;
       const response = await fetch(url);
       if (!response.ok) {
         throw new Error(`Weather API Error: ${response.status}`);
@@ -55,9 +65,10 @@ export class WeatherApiClient {
 
   async getCity(cityName: string) {
     try {
+      const units = this.getSelectedUnit();
       const url = `${this.baseUrl}weather?q=${encodeURIComponent(
         cityName
-      )}&appid=${this.apiKey}&units=${this.units}&lang=${
+      )}&appid=${this.apiKey}&units=${units}&lang=${
         API_CONFIG.DEFAULT_PARAMS.lang
       }`;
       const response = await fetch(url);

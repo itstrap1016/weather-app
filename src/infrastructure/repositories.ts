@@ -92,7 +92,7 @@ export class WeatherApiRepository implements WeatherRepository {
       description: data.weather[0].description,
       icon: data.weather[0].icon,
       city: data.name,
-      feels_like: data.main.feels_like,
+      feels_like: Math.round(data.main.feels_like),
       humidity: data.main.humidity,
       pressure: data.main.pressure,
       wind: {

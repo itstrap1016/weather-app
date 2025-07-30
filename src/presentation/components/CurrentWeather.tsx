@@ -1,4 +1,5 @@
 import type { Weather, AQI, MinMaxTemp } from "@/domain/weather";
+import { getTemperatureSymbol } from "@/shared/utils/format-temp";
 
 const getAqiColor = (level: string) => {
   switch (level) {
@@ -31,7 +32,9 @@ function CurrentWeather({
       <div className="flex items-center gap-2">
         <p className="text-6xl font-bold relative">
           {weatherData.temperature}
-          <span className="text-xl absolute top-0 -right-4">°C</span>
+          <span className="text-xl absolute top-0 -right-4">
+            {getTemperatureSymbol()}
+          </span>
         </p>
         <img
           src={`https://openweathermap.org/img/wn/${weatherData.icon}@2x.png`}
