@@ -1,8 +1,8 @@
 import { API_CONFIG } from "@/shared/constants/api";
 import {
-  TEMPERATURE_UNIT_KEY,
+  UNIT_STORAGE_KEYS,
   TEMPERATURE_UNITS,
-} from "@/shared/constants/temp-units";
+} from "@/shared/constants/unit-settings";
 
 export class WeatherApiClient {
   private baseUrl: string;
@@ -15,7 +15,8 @@ export class WeatherApiClient {
 
   private getSelectedUnit(): string {
     return (
-      localStorage.getItem(TEMPERATURE_UNIT_KEY) || TEMPERATURE_UNITS.CELSIUS
+      localStorage.getItem(UNIT_STORAGE_KEYS.TEMPERATURE) ||
+      TEMPERATURE_UNITS.CELSIUS
     );
   }
 

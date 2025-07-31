@@ -1,3 +1,8 @@
+import {
+  convertWindSpeed,
+  getWindSpeedSymbol,
+} from "@/shared/utils/unit-converters";
+import { UNIT_STORAGE_KEYS } from "@/shared/constants/unit-settings";
 import { BOX } from "@/shared/constants/style";
 
 interface WindCompassProps {
@@ -11,6 +16,10 @@ export default function WindCompass({
   direction,
   deg,
 }: WindCompassProps) {
+  const windUnit = localStorage.getItem(UNIT_STORAGE_KEYS.WIND_SPEED) || "kmh";
+  const convertedSpeed = convertWindSpeed(speed, windUnit);
+  const symbol = getWindSpeedSymbol(windUnit);
+
   return (
     <section
       className={`${BOX} flex h-[100px] justify-center items-center gap-3`}
@@ -18,7 +27,10 @@ export default function WindCompass({
       <div className="basis-full flex justify-center">
         <div>
           <p className="text-sm mb-1">{direction}</p>
-          <p className="text-sm font-medium">{speed}km/h</p>
+          <p className="text-sm font-medium">
+            {convertedSpeed}
+            {symbol}
+          </p>
         </div>
       </div>
       <div className="basis-full flex justify-center">

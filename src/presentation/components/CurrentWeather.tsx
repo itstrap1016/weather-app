@@ -1,5 +1,5 @@
 import type { Weather, AQI, MinMaxTemp } from "@/domain/weather";
-import { getTemperatureSymbol } from "@/shared/utils/format-temp";
+import { getTemperatureSymbol } from "@/shared/utils/unit-converters";
 
 const getAqiColor = (level: string) => {
   switch (level) {
