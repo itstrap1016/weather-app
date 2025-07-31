@@ -1,6 +1,7 @@
 import Navigation from "../components/Navigation";
 import CityList from "../components/CityList";
 import UnitSetting from "../components/UnitSetting";
+import Reset from "../components/Reset";
 
 function Setting() {
   return (
@@ -8,6 +9,7 @@ function Setting() {
       <Navigation backBtn={true} />
       <UnitSetting />
       <CityList />
+      <Reset />
     </>
   );
 }

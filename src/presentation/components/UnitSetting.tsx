@@ -27,7 +27,7 @@ function UnitSelectBox<T extends string>({
 }: UnitSelectBoxProps<T>) {
   return (
     <div className="flex justify-between items-center mt-4">
-      <h3 className="font-medium">{label}</h3>
+      <h3 className="">{label}</h3>
       <select
         value={value}
         onChange={(e) => onChange(e.target.value as T)}

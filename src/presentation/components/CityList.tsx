@@ -1,7 +1,7 @@
 import { LuTrash2, LuMapPinCheckInside } from "react-icons/lu";
 import { SECTION_LAYOUT } from "@/shared/constants/style";
 import { useCityList } from "@/presentation/hooks/useCityList";
-import { SELECTED_CITY } from "@/shared/constants/storage";
+import { SELECTED_CITY } from "@/shared/constants/city";
 import type { CityInfo, SelectedCity } from "@/domain/weather";
 
 function CityList() {
@@ -18,11 +18,11 @@ function CityList() {
   };
 
   return (
-    <section className={`${SECTION_LAYOUT} py-5`}>
+    <section className={`${SECTION_LAYOUT} py-5 border-b border-gray-200`}>
       <h2 className="font-medium mb-5 text-xl">저장된 도시 목록</h2>
 
       {cityList.length === 0 ? (
-        <p className="text-center">저장된 도시가 없습니다.</p>
+        <h3 className="text-center">저장된 도시가 없습니다.</h3>
       ) : (
         <ul className="space-y-3">
           {cityList.map((city) => (

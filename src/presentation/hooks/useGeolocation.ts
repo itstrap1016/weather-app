@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import type { SelectedCity } from "@/domain/weather";
 import type { Coordinates } from "@/shared/types/common-types";
-import { DEFAULT_CITY, SELECTED_CITY } from "@/shared/constants/storage";
+import { DEFAULT_CITY, SELECTED_CITY } from "@/shared/constants/city";
 
 interface LocationPermission {
   granted: boolean;

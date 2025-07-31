@@ -4,7 +4,7 @@ import {
   CITY_LIST,
   DEFAULT_CITY,
   SELECTED_CITY,
-} from "@/shared/constants/storage";
+} from "@/shared/constants/city";
 
 export function useCityList() {
   const [cityList, setCityList] = useState<CityInfo[]>([]);

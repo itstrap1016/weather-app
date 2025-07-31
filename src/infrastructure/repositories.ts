@@ -199,7 +199,6 @@ export class WeatherApiRepository implements WeatherRepository {
       lat: data.coord.lat,
       lon: data.coord.lon,
     };
-    console.log(city);
     return city;
   }
 }
