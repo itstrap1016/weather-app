@@ -15,4 +15,13 @@ export default defineConfig({
       "@/presentation": path.resolve(__dirname, "./src/presentation"),
     },
   },
+  base: process.env.NODE_ENV === "production" ? "/weather-app/" : "/",
+  build: {
+    outDir: "dist",
+    assetsDir: "assets",
+    minify: "esbuild",
+  },
+  esbuild: {
+    drop: process.env.NODE_ENV === "production" ? ["console", "debugger"] : [],
+  },
 });

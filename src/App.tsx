@@ -7,9 +7,12 @@ import Setting from "./presentation/pages/Setting";
 const queryClient = new QueryClient();
 
 function App() {
+  // 배포 환경에서만 basename 적용
+  const basename = import.meta.env.MODE === "production" ? "/weather-app" : "";
+
   return (
     <QueryClientProvider client={queryClient}>
-      <BrowserRouter>
+      <BrowserRouter basename={basename}>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/search" element={<Search />} />
