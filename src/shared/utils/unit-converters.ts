@@ -5,6 +5,8 @@ import {
   WIND_SPEED_UNITS,
   PRESSURE_UNITS,
   UNIT_STORAGE_KEYS,
+  type WindSpeedUnit,
+  type PressureUnit,
 } from "@/shared/constants/unit-settings";
 
 // 풍속 변환 (API는 m/s로 반환)
@@ -45,7 +47,7 @@ export function getWindSpeedSymbol(unit: string): string {
     [WIND_SPEED_UNITS.MPH]: "mph",
     [WIND_SPEED_UNITS.KNOTS]: "kn",
   };
-  return symbols[unit] || "m/s";
+  return symbols[unit as WindSpeedUnit] || "m/s";
 }
 
 export function getPressureSymbol(unit: string): string {
@@ -55,7 +57,7 @@ export function getPressureSymbol(unit: string): string {
     [PRESSURE_UNITS.INHG]: "inHg",
     [PRESSURE_UNITS.ATM]: "atm",
   };
-  return symbols[unit] || "mbar";
+  return symbols[unit as PressureUnit] || "mbar";
 }
 
 export function getTemperatureSymbol(): string {
