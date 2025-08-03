@@ -5,7 +5,7 @@ interface RequestLocationProps {
 
 function RequestLocation({ error, requestPermission }: RequestLocationProps) {
   return (
-    <section className="min-w-screen min-h-screen flex justify-center items-center">
+    <section className="min-w-screen min-h-screen flex justify-center items-center flex-col gap-5">
       <h2 className="sr-only">위치권한 재요청</h2>
       <p className="mb-4">{error}</p>
       <button
