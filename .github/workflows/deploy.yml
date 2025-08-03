@@ -29,6 +29,15 @@ jobs:
           node-version: "18"
           cache: "npm"
 
+      - name: Debug file structure
+        run: |
+          echo "=== Source structure ==="
+          find src -type f -name "*.ts" -o -name "*.tsx" | head -20
+          echo "=== Domain files ==="
+          ls -la src/domain/ || echo "Domain folder not found"
+          echo "=== Checking specific file ==="
+          ls -la src/domain/weather.ts || ls -la src/domain/Weather.ts || echo "Weather file not found"
+
       - name: Install dependencies
         run: npm ci
 
