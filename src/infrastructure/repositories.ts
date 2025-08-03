@@ -68,23 +68,25 @@ export class WeatherApiRepository implements WeatherRepository {
     const msToKmh = (ms: number) => Math.round(ms * 3.6 * 10) / 10;
 
     // 시간 포맷 함수 추가
-    const formatTime = (timestamp: number): string => {
-      return new Date(timestamp * 1000).toLocaleTimeString("ko-KR", {
-        hour: "2-digit",
-        minute: "2-digit",
-        hour12: false,
-      });
+    const formatTime = (timestamp: number, timezoneOffset: number): string => {
+      // timestamp: UTC 초
+      // timezoneOffset: 초 단위의 UTC로부터의 오프셋
+      const localTime = new Date((timestamp + timezoneOffset) * 1000);
+      const hours = localTime.getUTCHours().toString().padStart(2, "0");
+      const minutes = localTime.getUTCMinutes().toString().padStart(2, "0");
+      return `${hours}:${minutes}`;
     };
 
     // 일출/일몰 관련 계산
     const now = Math.floor(Date.now() / 1000);
-    const isDaytime = now >= data.sys.sunrise && now <= data.sys.sunset;
+    const localNow = now + data.timezone; // 선택된 도시의 현재 시간
+    const localSunrise = data.sys.sunrise + data.timezone;
+    const localSunset = data.sys.sunset + data.timezone;
+
+    const isDaytime = localNow >= localSunrise && localNow <= localSunset;
     const progress = Math.max(
       0,
-      Math.min(
-        1,
-        (now - data.sys.sunrise) / (data.sys.sunset - data.sys.sunrise)
-      )
+      Math.min(1, (localNow - localSunrise) / (localSunset - localSunrise))
     );
 
     return {
@@ -101,8 +103,8 @@ export class WeatherApiRepository implements WeatherRepository {
         deg: data.wind.deg,
       },
       sun: {
-        sunrise: formatTime(data.sys.sunrise),
-        sunset: formatTime(data.sys.sunset),
+        sunrise: formatTime(data.sys.sunrise, data.timezone),
+        sunset: formatTime(data.sys.sunset, data.timezone),
         isDaytime,
         progress,
       },
